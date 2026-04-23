@@ -1,16 +1,57 @@
-# React + Vite
+# AI Personalized Learning System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An intelligent, adaptive learning platform that generates personalized study plans, quizzes, and weakness analysis using Google Gemini AI.
 
-Currently, two official plugins are available:
+## Features
+- AI-generated study plans tailored to your goal and level
+- Adaptive MCQ quiz with instant feedback and explanations
+- Spaced repetition engine (SM-2 algorithm) for optimal review scheduling
+- Weakness analysis and AI-powered recommendations
+- Mock test generator weighted toward weak topics
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
+- **Frontend:** React, Vite, React Router
+- **Backend:** FastAPI (Python)
+- **AI:** Google Gemini 2.0
+- **Database:** SQLite
+- **Algorithm:** SM-2 Spaced Repetition
 
-## React Compiler
+## Architecture
+- REST API backend with 9 endpoints
+- AI layer fully decoupled from business logic
+- SM-2 algorithm schedules next review based on recall quality (0–5 scale)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run Locally
 
-## Expanding the ESLint configuration
+### Backend
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open http://localhost:5173
+
+## Environment Variables
+Create `backend/.env`:
+
+Get a free key at https://aistudio.google.com
+
+## API Endpoints
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/plan | Generate AI study plan |
+| POST | /api/quiz | Get a quiz question |
+| POST | /api/submit | Submit answer + update SM-2 |
+| GET | /api/analysis/{user_id} | Weakness analysis |
+| GET | /api/review/{user_id} | Due cards for review |
+| POST | /api/mock-test | Generate mock test |
